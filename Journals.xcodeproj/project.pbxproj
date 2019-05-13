@@ -8,22 +8,28 @@
 
 /* Begin PBXBuildFile section */
 		979222B6228911F600DE1F65 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 979222B5228911F600DE1F65 /* AppDelegate.swift */; };
-		979222B8228911F600DE1F65 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 979222B7228911F600DE1F65 /* ViewController.swift */; };
+		979222B8228911F600DE1F65 /* NewJournalPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 979222B7228911F600DE1F65 /* NewJournalPage.swift */; };
 		979222BB228911F600DE1F65 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 979222B9228911F600DE1F65 /* Main.storyboard */; };
 		979222BE228911F600DE1F65 /* Journals.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 979222BC228911F600DE1F65 /* Journals.xcdatamodeld */; };
 		979222C0228911FB00DE1F65 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 979222BF228911FB00DE1F65 /* Assets.xcassets */; };
 		979222C3228911FB00DE1F65 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 979222C1228911FB00DE1F65 /* LaunchScreen.storyboard */; };
+		979222CE2289136900DE1F65 /* JournalListPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 979222CD2289136900DE1F65 /* JournalListPage.swift */; };
+		979222D1228916AF00DE1F65 /* JournalCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 979222D0228916AF00DE1F65 /* JournalCell.swift */; };
+		979222D322891A0800DE1F65 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 979222D222891A0800DE1F65 /* Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		979222B2228911F600DE1F65 /* Journals.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Journals.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		979222B5228911F600DE1F65 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		979222B7228911F600DE1F65 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		979222B7228911F600DE1F65 /* NewJournalPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewJournalPage.swift; sourceTree = "<group>"; };
 		979222BA228911F600DE1F65 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		979222BD228911F600DE1F65 /* Journals.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Journals.xcdatamodel; sourceTree = "<group>"; };
 		979222BF228911FB00DE1F65 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		979222C2228911FB00DE1F65 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		979222C4228911FB00DE1F65 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		979222CD2289136900DE1F65 /* JournalListPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalListPage.swift; sourceTree = "<group>"; };
+		979222D0228916AF00DE1F65 /* JournalCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalCell.swift; sourceTree = "<group>"; };
+		979222D222891A0800DE1F65 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,15 +62,50 @@
 		979222B4228911F600DE1F65 /* Journals */ = {
 			isa = PBXGroup;
 			children = (
-				979222B5228911F600DE1F65 /* AppDelegate.swift */,
-				979222B7228911F600DE1F65 /* ViewController.swift */,
-				979222B9228911F600DE1F65 /* Main.storyboard */,
+				979222CC228912C600DE1F65 /* Controller */,
+				979222CB228912C000DE1F65 /* View */,
+				979222CA228912B800DE1F65 /* Model */,
 				979222BF228911FB00DE1F65 /* Assets.xcassets */,
-				979222C1228911FB00DE1F65 /* LaunchScreen.storyboard */,
 				979222C4228911FB00DE1F65 /* Info.plist */,
 				979222BC228911F600DE1F65 /* Journals.xcdatamodeld */,
 			);
 			path = Journals;
+			sourceTree = "<group>";
+		};
+		979222CA228912B800DE1F65 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		979222CB228912C000DE1F65 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				979222B9228911F600DE1F65 /* Main.storyboard */,
+				979222C1228911FB00DE1F65 /* LaunchScreen.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		979222CC228912C600DE1F65 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				979222CF2289166C00DE1F65 /* Cell */,
+				979222B5228911F600DE1F65 /* AppDelegate.swift */,
+				979222B7228911F600DE1F65 /* NewJournalPage.swift */,
+				979222CD2289136900DE1F65 /* JournalListPage.swift */,
+				979222D222891A0800DE1F65 /* Extension.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		979222CF2289166C00DE1F65 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				979222D0228916AF00DE1F65 /* JournalCell.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -138,8 +179,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				979222CE2289136900DE1F65 /* JournalListPage.swift in Sources */,
 				979222BE228911F600DE1F65 /* Journals.xcdatamodeld in Sources */,
-				979222B8228911F600DE1F65 /* ViewController.swift in Sources */,
+				979222B8228911F600DE1F65 /* NewJournalPage.swift in Sources */,
+				979222D322891A0800DE1F65 /* Extension.swift in Sources */,
+				979222D1228916AF00DE1F65 /* JournalCell.swift in Sources */,
 				979222B6228911F600DE1F65 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
