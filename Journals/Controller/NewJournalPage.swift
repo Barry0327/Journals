@@ -16,10 +16,17 @@ class NewJournalPage: UIViewController {
 
     let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext
 
+    let imgBackground: UIView = {
+
+        let view = UIView()
+
+        return view
+    }()
+
     lazy var journalImageView: UIImageView = {
 
         let imgView = UIImageView()
-        imgView.backgroundColor = UIColor(r: 26, g: 34, b: 38, a: 1)
+        imgView.backgroundColor = .clear
         imgView.image = UIImage(named: "icon_photo")
         imgView.tintColor = .white
         imgView.contentMode = .center
@@ -31,10 +38,11 @@ class NewJournalPage: UIViewController {
         return imgView
     }()
 
-    let titleTextField: UITextField = {
+    lazy var titleTextField: UITextField = {
 
         let textField = UITextField()
         textField.placeholder = "Title"
+        textField.delegate = self
 
         return textField
     }()
@@ -50,6 +58,13 @@ class NewJournalPage: UIViewController {
     let contentTextView: UITextView = {
 
         let textView = UITextView()
+        let textAttributes: [NSAttributedString.Key: Any] = [
+
+            .font: UIFont.systemFont(ofSize: 18, weight: .regular),
+            .foregroundColor: UIColor(r: 131, g: 156, b: 152, a: 1),
+            .kern: 0.01
+        ]
+        textView.typingAttributes = textAttributes
 
         return textView
     }()
@@ -66,8 +81,25 @@ class NewJournalPage: UIViewController {
         let button = UIButton()
         button.layer.cornerRadius = 22
         button.backgroundColor = UIColor(r: 237, g: 96, b: 81, a: 1)
-        button.setTitle("Save", for: .normal)
+
+        let textAttributes: [NSAttributedString.Key: Any] = [
+
+            .font: UIFont.systemFont(ofSize: 20, weight: .regular),
+            .foregroundColor: UIColor.white,
+            .kern: 0.01
+
+        ]
+
+        let attributedString = NSAttributedString(string: "Save", attributes: textAttributes)
+        button.setAttributedTitle(attributedString, for: .normal)
         button.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
+        button.layer.applySketchShadow(
+            color: UIColor(r: 247, g: 174, b: 163, a: 1),
+            alpha: 1,
+            xPosition: 0,
+            yPosition: 0,
+            blur: 10,
+            spread: 0)
 
         return button
     }()
@@ -86,7 +118,8 @@ class NewJournalPage: UIViewController {
 
         hideKeyboardWhenTappedAround()
 
-        view.addSubview(journalImageView)
+        view.addSubview(imgBackground)
+        imgBackground.addSubview(journalImageView)
         view.addSubview(titleTextField)
         view.addSubview(separator)
         view.addSubview(contentTextView)
@@ -110,6 +143,20 @@ class NewJournalPage: UIViewController {
             name: UIResponder.keyboardWillHideNotification,
             object: nil
         )
+
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        let gradient = CAGradientLayer()
+        let slate = UIColor(r: 67, g: 87, b: 97, a: 1).cgColor
+        let dark = UIColor(r: 26, g: 34, b: 38, a: 1).cgColor
+
+        gradient.frame = imgBackground.bounds
+        gradient.colors = [slate, dark]
+
+        imgBackground.layer.insertSublayer(gradient, at: 0)
 
     }
 
@@ -140,6 +187,14 @@ class NewJournalPage: UIViewController {
     }
 
     private func setLayout() {
+
+        imgBackground.anchor(
+            top: view.topAnchor,
+            leading: view.leadingAnchor,
+            bottom: nil,
+            trailing: view.trailingAnchor,
+            size: CGSize.init(width: 0, height: 375)
+        )
 
         journalImageView.anchor(
             top: view.topAnchor,
@@ -232,6 +287,23 @@ extension NewJournalPage: UINavigationControllerDelegate, UIImagePickerControlle
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
 
         self.dismiss(animated: true, completion: nil)
+
+    }
+}
+
+extension NewJournalPage: UITextFieldDelegate {
+
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+
+        let textAtrributes: [NSAttributedString.Key: Any] = [
+
+            NSAttributedString.Key.foregroundColor: UIColor(r: 67, g: 87, b: 97, a: 1),
+            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 30, weight: .regular),
+            NSAttributedString.Key.kern: 0.01
+
+        ]
+
+        textField.typingAttributes = textAtrributes
 
     }
 }
