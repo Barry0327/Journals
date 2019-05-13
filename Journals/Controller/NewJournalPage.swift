@@ -129,6 +129,8 @@ class NewJournalPage: UIViewController {
             print(error)
         }
 
+        self.dismiss(animated: true, completion: nil)
+
     }
 
     @objc func dismissButtonTapped() {

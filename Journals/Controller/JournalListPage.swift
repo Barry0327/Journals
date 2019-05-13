@@ -48,6 +48,16 @@ class JournalListPage: UITableViewController {
 
         tableView.register(JournalCell.self, forCellReuseIdentifier: "JournalCell")
 
+        tableView.separatorStyle = .none
+
+        loadJournals()
+
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        loadJournals()
     }
 
     @objc func addNewJournal() {
@@ -68,6 +78,8 @@ class JournalListPage: UITableViewController {
         do {
 
             journals = try context!.fetch(request)
+
+            tableView.reloadData()
 
         } catch {
 
@@ -93,28 +105,57 @@ class JournalListPage: UITableViewController {
 
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "JournalCell", for: indexPath) as? JournalCell else { fatalError("Please check cell's id") }
 
-        // Configure the cell...
+        cell.journal = journals[indexPath.row]
 
         return cell
     }
 
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 
-        return 210
+        return 212
     }
 
-
-    /*
-    // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
+
+
+        guard self.journals.count > 0 else {
+            return false
+        }
+
         return true
     }
-    */
 
-    /*
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+
+        let delete = UITableViewRowAction(style: .destructive, title: "Delete") { [weak self] _, indexPath in
+
+            guard let self = self else { return }
+
+            self.context?.delete(self.journals[indexPath.row])
+
+            self.journals.remove(at: indexPath.row)
+
+            do {
+
+                try self.context?.save()
+
+            } catch {
+
+                print(error)
+
+            }
+
+            tableView.deleteRows(at: [indexPath], with: .fade)
+
+        }
+
+        return [delete]
+    }
+
+
+
     // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source
             tableView.deleteRows(at: [indexPath], with: .fade)
@@ -122,7 +163,7 @@ class JournalListPage: UITableViewController {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }    
     }
-    */
+
 
     /*
     // Override to support rearranging the table view.

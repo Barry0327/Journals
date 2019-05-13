@@ -27,6 +27,7 @@ class JournalCell: UITableViewCell {
         let imgView = UIImageView()
         imgView.layer.cornerRadius = 8
         imgView.backgroundColor = .red
+        imgView.clipsToBounds = true
 
         return imgView
     }()
@@ -41,11 +42,20 @@ class JournalCell: UITableViewCell {
         return label
     }()
 
+    private let separator: UIView = {
+
+        let view = UIView()
+        view.backgroundColor = UIColor(r: 171, g: 179, b: 176, a: 1)
+
+        return view
+    }()
+
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
         contentView.addSubview(journalImageView)
         contentView.addSubview(titleLabel)
+        contentView.addSubview(separator)
 
         setLayout()
     }
@@ -71,6 +81,15 @@ class JournalCell: UITableViewCell {
             trailing: contentView.trailingAnchor,
             padding: .init(top: 16, left: 30, bottom: 0, right: 30),
             size: .init(width: 0, height: 16)
+        )
+
+        separator.anchor(
+            top: titleLabel.bottomAnchor,
+            leading: contentView.leadingAnchor,
+            bottom: nil,
+            trailing: contentView.trailingAnchor,
+            padding: .init(top: 19.8, left: 30, bottom: 0, right: 30),
+            size: .init(width: 0, height: 0.5)
         )
     }
 }
