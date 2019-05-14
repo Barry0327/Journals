@@ -67,7 +67,6 @@
 				979222CA228912B800DE1F65 /* Model */,
 				979222BF228911FB00DE1F65 /* Assets.xcassets */,
 				979222C4228911FB00DE1F65 /* Info.plist */,
-				979222BC228911F600DE1F65 /* Journals.xcdatamodeld */,
 			);
 			path = Journals;
 			sourceTree = "<group>";
@@ -75,6 +74,7 @@
 		979222CA228912B800DE1F65 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				979222BC228911F600DE1F65 /* Journals.xcdatamodeld */,
 			);
 			path = Model;
 			sourceTree = "<group>";

@@ -154,6 +154,24 @@ class JournalListPage: UITableViewController {
         }
 
         return [delete]
+
+    }
+
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+
+        let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
+
+        if let newVC = storyboard.instantiateViewController(withIdentifier: "NewJournalPage") as? NewJournalPage {
+
+            guard let cell = tableView.cellForRow(at: indexPath) as? JournalCell else { return }
+
+            newVC.index = indexPath.row
+
+            newVC.journal = cell.journal
+
+            present(newVC, animated: true, completion: nil)
+
+        }
     }
 
 

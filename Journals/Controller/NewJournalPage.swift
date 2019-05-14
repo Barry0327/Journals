@@ -7,12 +7,17 @@
 //
 
 import UIKit
+import CoreData
 
 class NewJournalPage: UIViewController {
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
+
+    var journal: Journal?
+
+    var index: Int?
 
     let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext
 
@@ -116,6 +121,8 @@ class NewJournalPage: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        checkExsistJournal()
+
         hideKeyboardWhenTappedAround()
 
         view.addSubview(imgBackground)
@@ -160,16 +167,45 @@ class NewJournalPage: UIViewController {
 
     }
 
+    func checkExsistJournal() {
+
+        if self.journal != nil {
+
+            self.journalImageView.image = UIImage(data: (self.journal?.image)!)
+            self.contentTextView.text = self.journal?.content
+
+            let textAttributes: [NSAttributedString.Key: Any] = [
+
+                NSAttributedString.Key.foregroundColor: UIColor(r: 67, g: 87, b: 97, a: 1),
+                NSAttributedString.Key.font: UIFont.systemFont(ofSize: 30, weight: .regular),
+                NSAttributedString.Key.kern: 0.01
+
+            ]
+
+            let attributeString = NSAttributedString(string: (self.journal?.title)!, attributes: textAttributes)
+
+            self.titleTextField.attributedText = attributeString
+        }
+    }
+
     @objc func saveButtonTapped() {
 
-        let newJournal = Journal(context: context!)
+        if self.journal == nil {
 
-        let pngData = self.journalImageView.image?.pngData()
+            let newJournal = Journal(context: context!)
 
-        newJournal.image = pngData
-        newJournal.title = self.titleTextField.text
-        newJournal.content = self.contentTextView.text
-        newJournal.date = Date()
+            let pngData = self.journalImageView.image?.pngData()
+
+            newJournal.image = pngData
+            newJournal.title = self.titleTextField.text
+            newJournal.content = self.contentTextView.text
+            newJournal.date = Date()
+
+        } else {
+
+            updateJournal()
+
+        }
 
         do {
 
@@ -183,6 +219,34 @@ class NewJournalPage: UIViewController {
 
         self.dismiss(animated: true, completion: nil)
 
+    }
+
+    func updateJournal() {
+
+        let request: NSFetchRequest<Journal> = Journal.fetchRequest()
+
+        let sort = NSSortDescriptor(key: "date", ascending: false)
+
+        request.sortDescriptors = [sort]
+
+        do {
+
+            let journals = try context!.fetch(request)
+
+            let journal = journals[index!]
+
+            let imageData = self.journalImageView.image?.pngData()
+
+            journal.image = imageData
+            journal.title = self.titleTextField.text
+            journal.content = self.contentTextView.text
+            journal.date = Date()
+
+        } catch {
+
+            print(error)
+
+        }
     }
 
     @objc func dismissButtonTapped() {
@@ -300,7 +364,7 @@ extension NewJournalPage: UITextFieldDelegate {
 
     func textFieldDidBeginEditing(_ textField: UITextField) {
 
-        let textAtrributes: [NSAttributedString.Key: Any] = [
+        let textAttributes: [NSAttributedString.Key: Any] = [
 
             NSAttributedString.Key.foregroundColor: UIColor(r: 67, g: 87, b: 97, a: 1),
             NSAttributedString.Key.font: UIFont.systemFont(ofSize: 30, weight: .regular),
@@ -308,7 +372,7 @@ extension NewJournalPage: UITextFieldDelegate {
 
         ]
 
-        textField.typingAttributes = textAtrributes
+        textField.typingAttributes = textAttributes
 
     }
 }
