@@ -169,11 +169,16 @@ class NewJournalPage: UIViewController {
         newJournal.image = pngData
         newJournal.title = self.titleTextField.text
         newJournal.content = self.contentTextView.text
+        newJournal.date = Date()
 
         do {
+
             try context?.save()
+
         } catch {
+
             print(error)
+
         }
 
         self.dismiss(animated: true, completion: nil)

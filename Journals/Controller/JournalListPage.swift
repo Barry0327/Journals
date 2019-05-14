@@ -75,6 +75,10 @@ class JournalListPage: UITableViewController {
 
         let request: NSFetchRequest<Journal> = Journal.fetchRequest()
 
+        let sort = NSSortDescriptor(key: "date", ascending: false)
+
+        request.sortDescriptors = [sort]
+
         do {
 
             journals = try context!.fetch(request)
