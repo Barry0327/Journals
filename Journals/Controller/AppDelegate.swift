@@ -8,6 +8,8 @@
 
 import UIKit
 import CoreData
+import UserNotifications
+import Firebase
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -17,7 +19,50 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+
+        FirebaseApp.configure()
+
+        if #available(iOS 10.0, *) {
+
+            UNUserNotificationCenter.current().delegate = self
+
+            Messaging.messaging().delegate = self // For iOS 10 data message (sent via FCM)
+
+            // 在程式一啟動即詢問使用者是否接受圖文(alert)、聲音(sound)、數字(badge)三種類型的通知
+            UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge], completionHandler: { granted, error in
+                if granted {
+                    print("允許...")
+                } else {
+                    print("不允許...")
+                }
+            })
+        } else {
+            let settings: UIUserNotificationSettings =
+                UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+            application.registerUserNotificationSettings(settings)
+        }
+
+        UIApplication.shared.registerForRemoteNotifications()
+
         return true
+    }
+
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+
+        var tokenString = ""
+
+        for byte in deviceToken {
+
+            let hexString = String(format: "%02x", byte)
+            tokenString += hexString
+        }
+
+        print("Device token string: \(tokenString)")
+    }
+
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+
+        print(error.localizedDescription)
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
@@ -91,3 +136,52 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 }
 
+@available(iOS 10, *)
+extension AppDelegate: UNUserNotificationCenterDelegate {
+
+    /// App 在前景時，推播送出時即會觸發的 delegate
+    ///
+    /// - Parameters:
+    ///   - center: _
+    ///   - notification: _
+    ///   - completionHandler: _
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+
+        // 印出後台送出的推播訊息(JOSN 格式)
+        let userInfo = notification.request.content.userInfo
+        print("userInfo: \(userInfo)")
+
+        // 可設定要收到什麼樣式的推播訊息，至少要打開 alert，不然會收不到推播訊息
+        completionHandler([.badge, .sound, .alert])
+    }
+
+    /// App 在關掉的狀態下或 App 在背景或前景的狀態下，點擊推播訊息時所會觸發的 delegate
+    ///
+    /// - Parameters:
+    ///   - center: _
+    ///   - response: _
+    ///   - completionHandler: _
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+
+        // 印出後台送出的推播訊息(JOSN 格式)
+        let userInfo = response.notification.request.content.userInfo
+        print("userInfo: \(userInfo)")
+
+        completionHandler()
+    }
+}
+
+extension AppDelegate: MessagingDelegate {
+
+    /// iOS10 含以上的版本用來接收 firebase token 的 delegate
+    ///
+    /// - Parameters:
+    ///   - messaging: _
+    ///   - fcmToken: _
+    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
+
+        // 用來從 firebase 後台推送單一裝置所必須的 firebase token
+        print("Firebase registration token: \(fcmToken)")
+
+    }
+}

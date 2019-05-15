@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>616982055294-flgdpfmi1sbi4rrss5seltcpiflv84qj.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.616982055294-flgdpfmi1sbi4rrss5seltcpiflv84qj</string>
+	<key>API_KEY</key>
+	<string>AIzaSyA_8t438AlLnFUQKvriOUXcYeEvg7RYR_k</string>
+	<key>GCM_SENDER_ID</key>
+	<string>616982055294</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.BarryChen.Journals</string>
+	<key>PROJECT_ID</key>
+	<string>journals-a73fb</string>
+	<key>STORAGE_BUCKET</key>
+	<string>journals-a73fb.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:616982055294:ios:5af06bb0496fa46b</string>
+	<key>DATABASE_URL</key>
+	<string>https://journals-a73fb.firebaseio.com</string>
+</dict>
+</plist>
